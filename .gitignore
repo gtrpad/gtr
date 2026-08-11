@@ -1,0 +1,21 @@
+.DS_Store
+.vscode/
+
+# secrets
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+
+# node
+node_modules/
+.next/
+*.tsbuildinfo
+npm-debug.log*
+
+# foundry
+contracts/lib/
+contracts/out/
+contracts/cache/
+contracts/broadcast/
