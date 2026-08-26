@@ -1,0 +1,23 @@
+name: contracts
+
+on:
+  push:
+    paths: ["contracts/**"]
+  pull_request:
+    paths: ["contracts/**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: install dependencies
+        working-directory: contracts
+        run: forge install --no-commit OpenZeppelin/openzeppelin-contracts@v5.1.0 Uniswap/v4-core Uniswap/v4-periphery
+      - name: build
+        working-directory: contracts
+        run: forge build --sizes
+      - name: unit tests
+        working-directory: contracts
+        run: forge test --no-match-contract ForkTest -vv
