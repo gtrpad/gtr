@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// All runtime settings: one key/value table + cache in lib/settings.ts
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+// Catalogue word: one WordCoin per row once deployed
+model Word {
+  id           String   @id // bytes32 hex, keccak256(slug)
+  slug         String   @unique
+  name         String
+  symbol       String
+  wikiTitle    String
+  coin         String? // WordCoin address once addWord() ran
+  enabled      Boolean  @default(true)
+  hidden       Boolean  @default(false)
+  lastViews    Int?
+  lastPrice    Decimal? @db.Decimal(38, 18) // USD per coin
+  lastPushedAt DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  prices       WordPrice[]
+  markets      Market[]
+
+  @@index([enabled, hidden])
+}
+
+// Daily oracle observations (one per word per UTC day)
+model WordPrice {
+  id       Int      @id @default(autoincrement())
+  wordId   String
+  word     Word     @relation(fields: [wordId], references: [id])
+  day      DateTime @db.Date
+  views    Int
+  price    Decimal  @db.Decimal(38, 18)
+  pushedTx String?
+  pushedAt DateTime?
+
+  @@unique([wordId, day])
+}
+
+model Market {
+  token         String   @id // LaunchToken address (lowercase)
+  wordId        String
+  word          Word     @relation(fields: [wordId], references: [id])
+  coin          String
+  name          String
+  symbol        String
+  uri           String
+  imageUrl      String?
+  description   String?
+  website       String?
+  twitter       String?
+  telegram      String?
+  creator       String
+  feeBps        Int
+  createdAt     DateTime
+  createdBlock  BigInt
+  migrated      Boolean  @default(false)
+  migratedAt    DateTime?
+  poolId        String?
+  vBase         Decimal  @db.Decimal(60, 0)
+  vQuote        Decimal  @db.Decimal(60, 0)
+  k             Decimal  @db.Decimal(80, 0)
+  curveSupply   Decimal  @db.Decimal(60, 0)
+  raised        Decimal  @db.Decimal(60, 0) @default(0)
+  lastPriceCoin Decimal  @db.Decimal(38, 18) @default(0) // coin per token
+  totalFeesCoin Decimal  @db.Decimal(60, 0) @default(0)
+  hidden        Boolean  @default(false)
+  trades        Trade[]
+  balances      HolderBalance[]
+  holderPool    HolderPool?
+  rounds        PayoutRound[]
+
+  @@index([wordId])
+  @@index([createdAt])
+}
+
+model Trade {
+  id          Int      @id @default(autoincrement())
+  token       String
+  market      Market   @relation(fields: [token], references: [token])
+  txHash      String
+  logIndex    Int
+  block       BigInt
+  ts          DateTime
+  trader      String
+  isBuy       Boolean
+  venue       String // curve | pool
+  quoteAmount Decimal  @db.Decimal(60, 0) // word coin, 18 dec
+  tokenAmount Decimal  @db.Decimal(60, 0)
+  fee         Decimal  @db.Decimal(60, 0) @default(0)
+  priceCoin   Decimal  @db.Decimal(38, 18)
+  priceUsd    Decimal  @db.Decimal(38, 18)
+  usdValue    Decimal  @db.Decimal(38, 6)
+
+  @@unique([txHash, logIndex])
+  @@index([token, ts])
+  @@index([ts])
+}
+
+model HolderBalance {
+  token   String
+  market  Market  @relation(fields: [token], references: [token])
+  wallet  String
+  balance Decimal @db.Decimal(60, 0)
+  block   BigInt
+
+  @@id([token, wallet])
+  @@index([token, balance])
+}
+
+// Holder fee pool per market, in the word coin (18 dec)
+model HolderPool {
+  token     String   @id
+  market    Market   @relation(fields: [token], references: [token])
+  accrued   Decimal  @db.Decimal(60, 0) @default(0) // swept holder share
+  paid      Decimal  @db.Decimal(60, 0) @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model PayoutRound {
+  id        Int      @id @default(autoincrement())
+  token     String
+  market    Market   @relation(fields: [token], references: [token])
+  coin      String
+  createdAt DateTime @default(now())
+  totalCoin Decimal  @db.Decimal(60, 0)
+  totalUsd  Decimal  @db.Decimal(38, 6)
+  wallets   Int
+  txHash    String?
+  status    String   @default("pending") // pending | sent | dry | failed
+  error     String?
+  payouts   Payout[]
+
+  @@index([token, createdAt])
+}
+
+model Payout {
+  id       Int         @id @default(autoincrement())
+  roundId  Int
+  round    PayoutRound @relation(fields: [roundId], references: [id])
+  wallet   String
+  coin     String
+  amount   Decimal     @db.Decimal(60, 0)
+  usd      Decimal     @db.Decimal(38, 6)
+  txHash   String?
+  createdAt DateTime   @default(now())
+
+  @@index([wallet, createdAt])
+}
+
+// Buyback + protocol fee shares per word coin, swept to the treasury and
+// converted to USDG / ETH by the keeper
+model TreasuryPool {
+  coin              String   @id
+  wordId            String
+  buybackAccrued    Decimal  @db.Decimal(60, 0) @default(0)
+  buybackConverted  Decimal  @db.Decimal(60, 0) @default(0)
+  protocolAccrued   Decimal  @db.Decimal(60, 0) @default(0)
+  protocolConverted Decimal  @db.Decimal(60, 0) @default(0)
+  updatedAt         DateTime @updatedAt
+}
+
+// Everything the keeper / operator did
+model Journal {
+  id        Int      @id @default(autoincrement())
+  ts        DateTime @default(now())
+  kind      String // oracle | fees | payout | treasury | buyback | admin | indexer
+  level     String   @default("info") // info | warn | error | dry
+  message   String
+  txHash    String?
+  meta      Json?
+
+  @@index([ts])
+  @@index([kind, ts])
+}
+
+model IndexerState {
+  key   String @id
+  value String
+}
+
+// Launch metadata + image served from our domain (the on-chain URI points here)
+model LaunchMeta {
+  id          String   @id
+  name        String
+  symbol      String
+  description String?
+  website     String?
+  twitter     String?
+  telegram    String?
+  image       Bytes
+  imageMime   String
+  creator     String?
+  token       String?
+  createdAt   DateTime @default(now())
+}
