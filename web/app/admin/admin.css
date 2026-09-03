@@ -1,0 +1,76 @@
+/* Admin: dark neutral variant of the design tokens, Russian only */
+.adm { min-height: 100vh; display: flex; background: var(--tp-bg); color: var(--tp-ink); font-family: var(--tp-font-text, Inter, Roboto, Arial, sans-serif); font-size: 14px; line-height: 20px; }
+.adm a { color: var(--tp-blue-700); text-decoration: none; }
+.adm-side { width: 220px; flex: none; background: var(--tp-surface); border-right: 1px solid var(--tp-divider); padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; height: 100vh; }
+.adm-brand { font-weight: 600; font-size: 16px; padding: 8px 12px 16px; display: flex; align-items: center; gap: 8px; }
+.adm-brand i { width: 10px; height: 10px; border-radius: 50%; background: var(--tp-blue-700); display: inline-block; }
+.adm-nav a { display: block; padding: 8px 12px; border-radius: 8px; color: var(--tp-ink-2); }
+.adm-nav a.active, .adm-nav a:hover { background: var(--tp-surface-2); color: var(--tp-ink); }
+.adm-main { flex: 1; min-width: 0; padding: 28px 32px 48px; display: flex; flex-direction: column; gap: 20px; }
+.adm h1 { font-size: 24px; line-height: 32px; font-weight: 500; margin: 0; }
+.adm h2 { font-size: 16px; line-height: 24px; font-weight: 500; margin: 0 0 12px; }
+.adm-card { background: var(--tp-surface); border: 1px solid var(--tp-divider); border-radius: 16px; padding: 20px 24px; }
+.adm-row { display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
+.adm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px 24px; }
+.adm label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--tp-ink-3); }
+.adm input, .adm select, .adm textarea { background: var(--tp-bg); color: var(--tp-ink); border: 1px solid var(--tp-outline); border-radius: 8px; height: 36px; padding: 0 10px; font: inherit; font-size: 14px; min-width: 0; }
+.adm textarea { height: auto; padding: 8px 10px; }
+.adm input:focus, .adm select:focus { outline: 2px solid var(--tp-blue-500); outline-offset: 0; }
+.adm-btn { height: 32px; padding: 0 14px; border-radius: 100px; border: 1px solid var(--tp-outline); background: transparent; color: var(--tp-ink); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+.adm-btn:hover { background: var(--tp-surface-2); }
+.adm-btn.primary { background: var(--tp-blue-700); color: #062e6f; border-color: transparent; }
+.adm-btn.danger { border-color: var(--tp-red-600); color: #f2b8b5; }
+.adm-btn:disabled { opacity: 0.5; cursor: default; }
+.adm-table-wrap { max-height: 520px; overflow: auto; border: 1px solid var(--tp-divider); border-radius: 12px; }
+.adm table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.adm th { position: sticky; top: 0; background: var(--tp-surface-2); text-align: left; font-weight: 500; color: var(--tp-ink-2); padding: 10px 12px; border-bottom: 1px solid var(--tp-outline); white-space: nowrap; }
+.adm td { padding: 8px 12px; border-bottom: 1px solid var(--tp-divider); vertical-align: middle; white-space: nowrap; }
+.adm .mono { font-family: var(--tp-font-mono, ui-monospace, Menlo, monospace); font-size: 12px; }
+.adm .muted { color: var(--tp-ink-3); }
+.adm .ok { color: var(--tp-green-on); } .adm .bad { color: #f2b8b5; } .adm .warn { color: var(--tp-yellow-on); }
+.adm-chip { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+.adm-chip.on { background: var(--tp-green-100); color: var(--tp-green-on); }
+.adm-chip.off { background: var(--tp-red-100); color: var(--tp-red-on); }
+.adm-chip.dry { background: var(--tp-yellow-100); color: var(--tp-yellow-on); }
+.adm-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--tp-divider); }
+.adm-toggle:last-child { border-bottom: 0; }
+.adm-toggle b { font-weight: 500; display: block; }
+.adm-toggle small { color: var(--tp-ink-3); }
+.adm-msg { padding: 10px 14px; border-radius: 8px; background: var(--tp-surface-2); font-size: 13px; }
+.adm-msg.err { background: var(--tp-red-100); color: var(--tp-red-on); }
+.adm-login { min-height: 100vh; display: grid; place-items: center; background: var(--tp-bg); color: var(--tp-ink); }
+.adm-login form { width: 320px; display: flex; flex-direction: column; gap: 12px; }
+.adm-journal { max-height: 560px; overflow: auto; font-family: var(--tp-font-mono, ui-monospace, Menlo, monospace); font-size: 12px; line-height: 18px; background: var(--tp-bg); border: 1px solid var(--tp-divider); border-radius: 12px; padding: 12px; }
+.adm-journal div { display: flex; gap: 10px; padding: 2px 0; border-bottom: 1px dashed var(--tp-divider); }
+.adm-journal time { color: var(--tp-ink-3); flex: none; }
+.adm-journal .k { color: var(--tp-blue-400); flex: none; width: 70px; }
+
+/* Keep operator forms and logs usable on phones and smaller laptops. */
+.adm { width: 100%; }
+.adm-card, .adm-grid > *, .adm-toggle > *, .adm-row > * { min-width: 0; }
+.adm-card, .adm-msg, .adm-toggle { overflow-wrap: anywhere; }
+.adm-row { flex-wrap: wrap; }
+.adm-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.adm input, .adm select, .adm textarea { max-width: 100%; }
+.adm-btn { height: auto; min-height: 36px; padding-block: 6px; white-space: normal; }
+.adm-login { padding: 24px; }
+.adm-login form { width: min(320px, 100%); }
+.adm-journal div { flex-wrap: wrap; overflow-wrap: anywhere; }
+.adm-journal div > * { min-width: 0; }
+@media (max-width: 760px) {
+  .adm { flex-direction: column; }
+  .adm-side { width: 100%; height: auto; position: static; padding: 12px 16px; border-right: 0; border-bottom: 1px solid var(--tp-divider); }
+  .adm-brand { padding: 4px 8px 12px; }
+  .adm-nav { display: flex; overflow-x: auto; gap: 4px; padding-bottom: 4px; }
+  .adm-nav a { flex: none; white-space: nowrap; }
+  .adm-main { padding: 24px 16px 40px; }
+  .adm-card { padding: 16px; }
+  .adm-row > label { flex: 1 1 180px; }
+  .adm input, .adm select, .adm textarea { font-size: 16px; }
+}
+.adm-row > label { min-width: min(100%, 180px); }
+.adm-word-field { flex: 1 1 200px; }
+@media (max-width: 480px) {
+  .adm-toggle { flex-wrap: wrap; }
+  .adm-toggle > .adm-row { flex: 0 0 100%; }
+}
