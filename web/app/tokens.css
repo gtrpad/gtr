@@ -1,0 +1,24 @@
+/* GTR tokens: minimal, paper and ink, one purple accent. --tp-* names kept for components. */
+:root {
+  /* accent: one blue; the four brand dots are decoration only */
+  --purple: #1a73e8; --purple-ink: #1a73e8; --purple-tint: #e8f0fe;
+  --g-blue: #4285f4; --g-red: #ea4335; --g-yellow: #fbbc04; --g-green: #34a853;
+  --g-blue-bg: #e8f0fe; --g-red-bg: #fce8e6; --g-yellow-bg: #fef7e0; --g-green-bg: #e6f4ea;
+  --ink: #242129; --muted: #79767e; --line: #e9e6ea; --line-2: #f1eff2; --paper: #faf9f7; --surface: #ffffff;
+  --up: #1e8e3e; --up-line: #1e8e3e; --up-chip: #e6f4ea; --down: #d93025; --down-line: #d93025; --down-chip: #fce8e6;
+  --warn: #f9ab00; --grey: #ebe9ec;
+
+  --tp-blue-700: var(--purple-ink); --tp-blue-500: var(--purple); --tp-blue-400: var(--purple); --tp-blue-300: #8ab4f8;
+  --tp-blue-100: var(--purple-tint); --tp-blue-80: var(--purple-tint); --tp-blue-on-tonal: var(--purple-ink);
+  --tp-green-600: var(--up-line); --tp-green-700: var(--up); --tp-green-100: var(--up-chip); --tp-green-on: #137333;
+  --tp-red-600: var(--down-line); --tp-red-700: var(--down); --tp-red-100: var(--down-chip); --tp-red-on: #a50e0e;
+  --tp-yellow-100: #fef7e0; --tp-yellow-on: #7a4b00;
+  --tp-ink: var(--ink); --tp-ink-2: #4f4b55; --tp-ink-3: var(--muted); --tp-ink-4: #a9a5ad; --tp-ink-5: #c4c0c8;
+  --tp-outline: #dadce0; --tp-divider: var(--line); --tp-gridline: var(--line-2); --tp-track: var(--grey);
+  --tp-surface: var(--surface); --tp-bg: var(--paper);
+  --tp-font-text: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --tp-font-chart: var(--tp-font-text); --tp-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --tp-chart-grid: var(--line); --tp-chart-baseline: #d9d5dc;
+  --tp-spark-up: var(--up-line); --tp-spark-down: var(--down-line); --tp-spark-flat: #9b969f;
+  --tp-shadow-1: 0 8px 30px rgba(36, 33, 41, 0.12);
+}
