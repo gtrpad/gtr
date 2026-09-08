@@ -1,0 +1,8 @@
+# Two services from the web folder share one image. START_CMD picks the process.
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "web/Dockerfile"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
