@@ -1,0 +1,15 @@
+{
+  "name": "gtr",
+  "private": true,
+  "description": "Launchpad on Robinhood Chain where every token is priced in a word coin driven by an attention oracle",
+  "scripts": {
+    "web": "npm --prefix web run dev",
+    "worker": "npm --prefix web run worker",
+    "build": "npm --prefix web run build",
+    "test": "cd contracts && forge test",
+    "typecheck": "cd web && npx tsc --noEmit -p ."
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
